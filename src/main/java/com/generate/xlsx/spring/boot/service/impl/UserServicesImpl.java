@@ -1,4 +1,4 @@
-package com.generate.xlsx.spring.boot.service;
+package com.generate.xlsx.spring.boot.service.impl;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 
 import com.generate.xlsx.spring.boot.model.User;
 import com.generate.xlsx.spring.boot.repository.UserRepository;
+import com.generate.xlsx.spring.boot.service.IUserServices;
 import com.generate.xlsx.spring.boot.util.UserExcelExporter;
 
 @Service
 @Transactional
-public class UserServices {
+public class UserServicesImpl implements IUserServices {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -28,7 +29,7 @@ public class UserServices {
 		return userRepository.findAll(Sort.by("email").ascending());
 	}
 
-	public void downloadToExcel(HttpServletResponse response) {
+	public void downloadToExcel(HttpServletResponse response) throws IOException {
 		response.setContentType("application/octet-stream");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
 		String currentDateTime = dateFormatter.format(new Date());
@@ -41,21 +42,13 @@ public class UserServices {
 
 		UserExcelExporter excelExporter = new UserExcelExporter(listUsers);
 
-		try {
-			excelExporter.export(response);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		excelExporter.export(response);
 	}
 	
-	public void saveToExcel() {
+	public void saveToExcel() throws IOException {
 		List<User> listUsers = this.listAll();
 		UserExcelExporter excelExporter = new UserExcelExporter(listUsers);
-		try {
-			excelExporter.saveFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		excelExporter.saveFile();
 	}
 
 }
