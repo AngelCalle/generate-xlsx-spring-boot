@@ -17,8 +17,8 @@ SELECT * FROM USERSS_ROLES;
 SELECT * FROM USERSS_ROLES;  
 
 
-2. Download an .xlsx report with the data from the database
-:   http://localhost:8080/report/download-excel
+2. Download an .xlsx report with the data from the database:  
+http://localhost:8080/report/download-excel
 
-3. Save an .xlsx report to a specified path src\main\resources
-:   http://localhost:8080/report/report-excel
+3. Save an .xlsx report to a specified path src\main\resources:  
+http://localhost:8080/report/report-excel
