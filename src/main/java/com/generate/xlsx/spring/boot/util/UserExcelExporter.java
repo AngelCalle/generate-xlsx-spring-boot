@@ -21,6 +21,9 @@ import com.generate.xlsx.spring.boot.model.User;
 
 public class UserExcelExporter {
 
+	// http://poi.apache.org/components/spreadsheet/examples.html
+	// https://svn.apache.org/repos/asf/poi/trunk/poi-examples/src/main/java/org/apache/poi/examples/ss/LoanCalculator.java
+
 	private XSSFWorkbook workbook;
 	private XSSFSheet sheet;
 	private List<User> listUsers;
@@ -42,10 +45,10 @@ public class UserExcelExporter {
 		font.setColor(IndexedColors.ORANGE.index);
 		font.setFontName("Arial");
 		style.setFont(font);
-		
-        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-		
+
+		style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+		style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
 		createCell(row, 0, "User ID", style);
 		createCell(row, 1, "E-mail", style);
 		createCell(row, 2, "Full Name", style);
@@ -86,29 +89,39 @@ public class UserExcelExporter {
 		}
 	}
 
-	public void export(HttpServletResponse response) throws IOException {
+	public void export(HttpServletResponse response) {
 		writeHeaderLine();
 		writeDataLines();
 
-		ServletOutputStream outputStream = response.getOutputStream();
-		workbook.write(outputStream);
-		workbook.close();
-		outputStream.close();
+		ServletOutputStream outputStream;
+		try {
+			outputStream = response.getOutputStream();
+			workbook.write(outputStream);
+			workbook.close();
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
-    public void saveFile() throws IOException {
+
+	public void saveFile() {
 		writeHeaderLine();
 		writeDataLines();
 
 		String ruta = ".//src//main//resources//archivo.xlsx";
-		FileOutputStream out = new FileOutputStream(ruta);
-		workbook.write(out);
-		out.close();
-		workbook.close();
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(ruta);
+			workbook.write(out);
+			out.close();
+			workbook.close();
 
-		File file = new File(ruta);
-		System.out.println(file.length());
-	
-    }
+			File file = new File(ruta);
+			System.out.println(file.length());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }

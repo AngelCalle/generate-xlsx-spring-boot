@@ -1,18 +1,23 @@
 package com.generate.xlsx.spring.boot.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.core.io.InputStreamResource;
 
 import com.generate.xlsx.spring.boot.model.User;
 
 public interface IUserServices {
 
-	public List<User> listAll();
+	List<User> listAll();
 
-	public void downloadToExcel(HttpServletResponse response) throws IOException;
-	
-	public void saveToExcel() throws IOException;
+	void downloadToExcel(HttpServletResponse response);
+
+	void saveToExcel();
+
+	InputStreamResource downloadToExcel1();
+
+	void downloadToExcel2(HttpServletResponse response);
 
 }
